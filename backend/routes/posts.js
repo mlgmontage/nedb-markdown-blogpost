@@ -2,39 +2,43 @@ const { Router } = require("express");
 const router = Router();
 const DB = require("../connection");
 
-// get all posts
 router.get("/", async (req, res) => {
   const data = await DB.find({});
-  res.json(data);
+  res.status(200).json(data);
 });
 
-// create post
 router.post("/create", async (req, res) => {
   const text = req.body.text;
-  const inserted = await DB.insert({ text });
-  res.json({
+  if (text.trim() == "")
+    return res.status(400).json({ message: "Body is empty" });
+  const inserted = await DB.insert({
+    text,
+    created_at: new Date().toISOString(),
+    updated_at: null,
+  });
+  res.status(200).json({
     message: "Successfully added",
-    inserted,
   });
 });
 
-// update post
 router.put("/update/:id", async (req, res) => {
   const _id = req.params.id;
   const text = req.body.text;
-  const updated = await DB.update({ _id }, { text }, { multi: true });
+  const updated = await DB.update(
+    { _id },
+    { text, updated_at: new Date().toISOString() },
+    { multi: true }
+  );
   res.json({
     message: "Successfully updated",
-    numberUpdated: updated,
   });
 });
 
 router.delete("/delete/:id", async (req, res) => {
   const _id = req.params.id;
   const deleted = await DB.remove({ _id });
-  res.json({
+  res.status(200).json({
     message: "Successfully deleted",
-    deleted,
   });
 });
 
