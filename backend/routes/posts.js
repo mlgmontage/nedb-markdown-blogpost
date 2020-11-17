@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const datastore = require("nedb-promise");
-const DB = datastore({
-  filename: "../db/database.json",
-  autoload: true,
-});
+const DB = require("../connection");
 
 // get all posts
 router.get("/", async (req, res) => {
