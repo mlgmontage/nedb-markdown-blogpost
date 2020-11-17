@@ -7,6 +7,12 @@ router.get("/", async (req, res) => {
   res.status(200).json(data);
 });
 
+router.get("/:id", async (req, res) => {
+  const _id = req.params.id;
+  const data = await DB.find({ _id });
+  res.status(200).json(data);
+});
+
 router.post("/create", async (req, res) => {
   const text = req.body.text;
   if (text.trim() == "")
