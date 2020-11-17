@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PostsList from "./components/PostsList";
+import PostForm from "./components/PostForm";
 
 class App extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class App extends Component {
           </h1>
           <h1>Markdown Blogpost</h1>
         </header>
+        <PostForm />
         <PostsList posts={this.state.posts} className="col-md-8 m-auto" />
       </div>
     );
