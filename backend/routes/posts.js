@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const { Router } = require("express");
+const router = Router();
 const DB = require("../connection");
 
 // get all posts
@@ -8,15 +8,8 @@ router.get("/", async (req, res) => {
   res.json(data);
 });
 
-// get individual post
-router.get("/:id", async (req, res) => {
-  const _id = req.params.id;
-  const data = await DB.findOne({ _id });
-  res.json(data);
-});
-
-// insert post
-router.post("/insert", async (req, res) => {
+// create post
+router.post("/create", async (req, res) => {
   const text = req.body.text;
   const inserted = await DB.insert({ text });
   res.json({
@@ -26,7 +19,7 @@ router.post("/insert", async (req, res) => {
 });
 
 // update post
-router.post("/update/:id", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   const _id = req.params.id;
   const text = req.body.text;
   const updated = await DB.update({ _id }, { text }, { multi: true });
@@ -36,7 +29,7 @@ router.post("/update/:id", async (req, res) => {
   });
 });
 
-router.post("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   const _id = req.params.id;
   const deleted = await DB.remove({ _id });
   res.json({
