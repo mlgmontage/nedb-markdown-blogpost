@@ -2,13 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const morgan = require("morgan");
+const PORT = process.env.PORT || 8000;
 
 app.use(morgan("tiny"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use("/", require("./routes/home"));
-app.use("/posts", require("./routes/posts"));
+app.use("/api/posts", require("./routes/posts"));
 
-app.listen(8000, () => console.log("running"));
+app.listen(PORT, () =>
+  console.log(`Server listening on http://localhost:${PORT}`)
+);
